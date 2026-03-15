@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, MapPin, Globe, Clock, Mail, Send } from 'lucide-react'
-import SEO from '../components/SEO.JSX'
+import SEO from '../components/SEO.jsx'
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', type: 'Business Website', budget: '', message: '' })

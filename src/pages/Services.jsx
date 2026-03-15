@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Check, Layout, ShoppingBag, Terminal, Zap, Settings, Link as LinkIcon } from 'lucide-react'
-import SEO from '../components/SEO.JSX'
+import SEO from '../components/SEO.jsx'
 
 const services = [
   {

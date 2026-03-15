@@ -5,7 +5,7 @@ import {
   ArrowRight, Zap, Shield, CheckCircle2,
   Laptop, ShoppingCart, Code, Settings
 } from 'lucide-react'
-import SEO from '../components/SEO.JSX'
+import SEO from '../components/SEO.jsx'
 
 const Spline = lazy(() => import('@splinetool/react-spline'))
 

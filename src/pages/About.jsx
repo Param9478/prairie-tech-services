@@ -11,7 +11,7 @@ import {
   MessageSquare,
   Rocket
 } from 'lucide-react'
-import SEO from '../components/SEO.JSX'
+import SEO from '../components/SEO.jsx'
 
 const stack = [
   { cat: 'Frontend', items: ['React', 'Next.js', 'Vite', 'Framer Motion', 'Tailwind'], icon: <Code2 size={18} /> },

@@ -9,7 +9,7 @@ import boondocksInventory from '../assets/inventory.webp'
 import disposal from '../assets/disposal.webp'
 import trading from '../assets/trading.webp'
 import aquatic from '../assets/aquatic-center.webp'
-import SEO from '../components/SEO.JSX'
+import SEO from '../components/SEO.jsx'
 
 const projects = [
   {
