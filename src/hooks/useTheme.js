@@ -1,0 +1,15 @@
+import { useState, useEffect } from 'react'
+
+export function useTheme() {
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem('pts-theme') || 'dark'
+  )
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('pts-theme', theme)
+  }, [theme])
+
+  const toggle = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
+  return { theme, toggle, isDark: theme === 'dark' }
+}
