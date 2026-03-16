@@ -48,7 +48,7 @@ export default function About() {
 
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }} className="profile-box-outer">
               <div className="profile-box-inner">
-                <div className="profile-badge">PT</div>
+                <div className="profile-badge">PTS</div>
                 <h3 className="profile-name">Prairie Tech Services</h3>
                 <p className="profile-sub"><Globe size={12} /> Alberta, Canada</p>
                 <div className="profile-info-list">

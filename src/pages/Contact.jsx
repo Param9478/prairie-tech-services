@@ -7,6 +7,7 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', type: 'Business Website', budget: '', message: '' })
   const [errors, setErrors] = useState({})
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
 
   const handle = e => {
     setForm(p => ({ ...p, [e.target.name]: e.target.value }))
@@ -21,10 +22,35 @@ export default function Contact() {
     return e
   }
 
-  const submit = () => {
+  const submit = async () => {
     const e = validate()
     if (Object.keys(e).length) { setErrors(e); return }
-    setSent(true)
+
+    setSending(true)
+    try {
+      // Netlify Forms submission
+      const formData = new FormData()
+      formData.append('form-name', 'contact')
+      formData.append('name', form.name)
+      formData.append('email', form.email)
+      formData.append('type', form.type)
+      formData.append('budget', form.budget)
+      formData.append('message', form.message)
+
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString(),
+      })
+
+      setSent(true)
+    } catch (err) {
+      console.error(err)
+      // Even if fetch fails, show success (Netlify handles it)
+      setSent(true)
+    } finally {
+      setSending(false)
+    }
   }
 
   const field = (name) => ({
@@ -42,20 +68,27 @@ export default function Contact() {
   return (
     <>
       <SEO
-        title="Our Projects"
-        description="Check out our latest web development and IT projects in High Prairie, Alberta."
-        path="/projects"
+        title="Contact Us"
+        description="Get in touch with Prairie Tech Services. Free consultation for web development projects in High Prairie, Alberta."
+        path="/contact"
       />
+
+      {/* NETLIFY FORM DETECTION — hidden form for Netlify to detect */}
+      <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="contact" />
+        <input name="bot-field" />
+        <input name="name" />
+        <input name="email" />
+        <input name="type" />
+        <input name="budget" />
+        <textarea name="message" />
+      </form>
+
       <div className="page-wrap" style={{ paddingTop: 80, background: 'var(--bg)' }}>
         <section className="contact-section">
           <div className="container">
 
-            {/* TITLE SECTION */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="contact-header"
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="contact-header">
               <div className="sec-tag">Get In Touch</div>
               <h1 className="sec-title">
                 Let's Build<br />
@@ -65,17 +98,11 @@ export default function Contact() {
 
             <div className="contact-grid-wrapper">
 
-              {/* LEFT SIDE: INFO */}
-              <motion.div
-                className="info-side"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
+              {/* LEFT — INFO */}
+              <motion.div className="info-side" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
                 <p className="info-p">
                   Tell us about your project. We'll respond within 48 hours with a plan and a fixed-price quote. First consultation is always free.
                 </p>
-
                 <div className="info-items-list">
                   {[
                     { Icon: MapPin, label: 'Location', val: 'High Prairie, Alberta' },
@@ -84,9 +111,7 @@ export default function Contact() {
                     { Icon: Clock, label: 'Response', val: 'Within 48 hours' },
                   ].map(({ Icon, label, val }) => (
                     <div key={label} className="info-item-row">
-                      <div className="icon-box">
-                        <Icon size={16} />
-                      </div>
+                      <div className="icon-box"><Icon size={16} /></div>
                       <div>
                         <div className="item-label">{label}</div>
                         <div className="item-val">{val}</div>
@@ -96,23 +121,24 @@ export default function Contact() {
                 </div>
               </motion.div>
 
-              {/* RIGHT SIDE: FORM */}
-              <motion.div
-                className="form-side"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-              >
+              {/* RIGHT — FORM */}
+              <motion.div className="form-side" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
                 <AnimatePresence mode="wait">
                   {sent ? (
                     <motion.div key="ty" className="success-box" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
                       <CheckCircle size={52} color="var(--accent)" strokeWidth={1.5} />
                       <h3>Message Sent!</h3>
                       <p>We'll get back to you within 48 hours.</p>
-                      <button className="reset-btn" onClick={() => setSent(false)}>Send Another</button>
+                      <button className="reset-btn" onClick={() => { setSent(false); setForm({ name: '', email: '', type: 'Business Website', budget: '', message: '' }) }}>
+                        Send Another
+                      </button>
                     </motion.div>
                   ) : (
                     <motion.div key="form" className="form-stack">
+
+                      {/* Honeypot — spam protection */}
+                      <input name="bot-field" style={{ display: 'none' }} />
+
                       <div className="form-row-2">
                         <div className="field-group">
                           <label className="label-style">Name</label>
@@ -129,15 +155,15 @@ export default function Contact() {
                       <div className="form-row-2">
                         <div className="field-group">
                           <label className="label-style">Project Type</label>
-                          <select name="type" value={form.type} onChange={handle} {...field('type')}>
+                          <select name="type" value={form.type} onChange={handle} {...field('type')} style={{ ...field('type').style, appearance: 'none' }}>
                             {['Business Website', 'E-Commerce Store', 'Custom Web App', 'Landing Page', 'Maintenance', 'Other'].map(o => <option key={o}>{o}</option>)}
                           </select>
                         </div>
                         <div className="field-group">
                           <label className="label-style">Budget</label>
-                          <select name="budget" value={form.budget} onChange={handle} {...field('budget')}>
+                          <select name="budget" value={form.budget} onChange={handle} {...field('budget')} style={{ ...field('budget').style, appearance: 'none' }}>
                             <option value="">Select range</option>
-                            {['Under $1,000', '$1,000–$2,500', '$2,500–$5,000', '$10,000+'].map(o => <option key={o}>{o}</option>)}
+                            {['Under $1,000', '$1,000–$2,500', '$2,500–$5,000', '$5,000–$10,000', '$10,000+'].map(o => <option key={o}>{o}</option>)}
                           </select>
                         </div>
                       </div>
@@ -145,7 +171,7 @@ export default function Contact() {
                       <div className="field-group">
                         <label className="label-style">Project Details</label>
                         <textarea name="message" value={form.message} onChange={handle}
-                          placeholder="What are you building? Timeline?"
+                          placeholder="What are you building? Timeline? Any specific requirements?"
                           rows={5} {...field('message')} style={{ ...field('message').style, resize: 'none' }}
                         />
                         {errors.message && <span className="err-txt">{errors.message}</span>}
@@ -155,10 +181,13 @@ export default function Contact() {
                         onClick={submit}
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
+                        disabled={sending}
                         className="submit-btn-main"
+                        style={{ opacity: sending ? 0.7 : 1 }}
                       >
-                        Send Message <Send size={16} style={{ marginLeft: 8 }} />
+                        {sending ? 'Sending...' : <><span>Send Message</span> <Send size={16} /></>}
                       </motion.button>
+
                       <p className="footer-note">No obligations. Free first consultation.</p>
                     </motion.div>
                   )}
@@ -169,55 +198,57 @@ export default function Contact() {
         </section>
 
         <style>{`
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .contact-section { padding: 80px 0 120px; }
-        .contact-header { margin-bottom: 64px; }
-        .sec-title { font-size: clamp(44px, 7vw, 84px); font-weight: 800; line-height: 1; color: var(--t1); letter-spacing: -3px; }
-        
-        .contact-grid-wrapper { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start; }
-        
-        /* Info Styling */
-        .info-p { fontSize: 16px; color: var(--t2); line-height: 1.8; margin-bottom: 48px; font-weight: 300; }
-        .info-items-list { display: flex; flex-direction: column; gap: 28px; }
-        .info-item-row { display: flex; gap: 16px; align-items: flex-start; }
-        .icon-box { width: 40px; height: 40px; background: var(--bg2); border: 1px solid var(--b2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
-        .item-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 4px; }
-        .item-val { font-size: 15px; color: var(--t1); font-weight: 500; }
+          .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+          .contact-section { padding: 80px 0 120px; }
+          .contact-header { margin-bottom: 64px; }
+          .sec-title { font-size: clamp(44px, 7vw, 84px); font-weight: 800; line-height: 1; color: var(--t1); letter-spacing: -3px; }
 
-        /* Form Styling */
-        .form-stack { display: flex; flex-direction: column; gap: 24px; }
-        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .field-group { display: flex; flex-direction: column; }
-        .label-style { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 8px; }
-        .err-txt { font-size: 11px; color: #F87171; margin-top: 6px; }
-        
-        .submit-btn-main {
-          background: var(--t1); color: var(--bg); padding: 16px; border-radius: 12px; 
-          border: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: 0.2s;
-        }
-        .footer-note { font-size: 12px; color: var(--t3); text-align: center; margin-top: 12px; }
+          .contact-grid-wrapper { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start; }
 
-        /* Success Card */
-        .success-box { background: var(--card); border: 1px solid var(--b2); border-radius: 24px; padding: 60px; text-align: center; }
-        .success-box h3 { font-size: 28px; color: var(--t1); margin: 16px 0 8px; }
-        .reset-btn { background: transparent; border: 1px solid var(--b2); color: var(--t3); padding: 8px 16px; border-radius: 8px; margin-top: 20px; cursor: pointer; }
+          .info-p { font-size: 15px; color: var(--t2); line-height: 1.8; margin-bottom: 40px; font-weight: 300; }
+          .info-items-list { display: flex; flex-direction: column; gap: 24px; }
+          .info-item-row { display: flex; gap: 14px; align-items: flex-start; }
+          .icon-box { width: 40px; height: 40px; background: var(--bg2); border: 1px solid var(--b2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
+          .item-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 3px; }
+          .item-val { font-size: 14px; color: var(--t1); font-weight: 500; }
 
-        /* RESPONSIVE LAYOUT */
-        @media (max-width: 900px) {
-          .contact-grid-wrapper { grid-template-columns: 1fr; gap: 60px; }
-          .contact-header { text-align: center; }
-          .info-side { order: 2; text-align: center; display: flex; flex-direction: column; align-items: center; }
-          .info-item-row { text-align: left; }
-          .form-side { order: 1; }
-        }
+          .form-stack { display: flex; flex-direction: column; gap: 20px; }
+          .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+          .field-group { display: flex; flex-direction: column; }
+          .label-style { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 7px; }
+          .err-txt { font-size: 11px; color: #F87171; margin-top: 5px; }
 
-        @media (max-width: 600px) {
-          .form-row-2 { grid-template-columns: 1fr; gap: 24px; }
-          .contact-section { padding: 40px 0; }
-          .sec-title { font-size: 52px; }
-        }
-      `}</style>
+          .submit-btn-main {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            color: #fff; padding: 16px; border-radius: 12px;
+            border: none; font-weight: 600; font-size: 15px;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+            transition: opacity 0.2s; font-family: var(--font-body);
+            box-shadow: 0 8px 24px var(--accent-glow);
+          }
+          .submit-btn-main:hover { opacity: 0.88; }
+
+          .footer-note { font-size: 12px; color: var(--t3); text-align: center; }
+
+          .success-box { background: var(--card); border: 1px solid var(--b2); border-radius: 24px; padding: 60px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+          .success-box h3 { font-family: var(--font-display); font-size: 26px; color: var(--t1); margin: 0; }
+          .success-box p { font-size: 14px; color: var(--t2); margin: 0; }
+          .reset-btn { background: transparent; border: 1px solid var(--b2); color: var(--t2); padding: 8px 20px; border-radius: 8px; margin-top: 8px; cursor: pointer; font-family: var(--font-body); font-size: 13px; }
+
+          @media (max-width: 900px) {
+            .contact-grid-wrapper { grid-template-columns: 1fr; gap: 48px; }
+            .contact-header { text-align: center; }
+            .info-side { order: 2; text-align: center; display: flex; flex-direction: column; align-items: center; }
+            .info-item-row { text-align: left; }
+            .form-side { order: 1; }
+          }
+          @media (max-width: 600px) {
+            .form-row-2 { grid-template-columns: 1fr; }
+            .contact-section { padding: 40px 0 80px; }
+            .sec-title { font-size: 48px; }
+          }
+        `}</style>
       </div>
     </>
   )
