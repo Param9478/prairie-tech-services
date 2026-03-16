@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, MapPin, Globe, Clock, Mail, Send, ChevronDown } from 'lucide-react'
 import SEO from '../components/SEO.jsx'
 
-// Custom Dropdown Component (Sirf Arrow te Toggle fix karan layi)
 const CustomDropdown = ({ label, options, value, onChange, placeholder, name }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
@@ -32,7 +31,7 @@ const CustomDropdown = ({ label, options, value, onChange, placeholder, name }) 
           cursor: 'pointer',
           display: 'flex',
           justifyContent: 'space-between',
-          align_items: 'center'
+          alignItems: 'center'
         }}
       >
         <span>{value || placeholder}</span>
@@ -87,21 +86,15 @@ export default function Contact() {
     return e
   }
 
-
   const submit = async () => {
     const e = validate()
     if (Object.keys(e).length) { setErrors(e); return }
     setSending(true)
 
     try {
-      // Netlify nu ikk simple string-encoded body chahidi hai
       const body = new URLSearchParams({
         "form-name": "contact",
-        "name": form.name,
-        "email": form.email,
-        "type": form.type,
-        "budget": form.budget,
-        "message": form.message
+        ...form
       }).toString();
 
       await fetch("/", {
@@ -109,15 +102,14 @@ export default function Contact() {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: body,
       })
-
       setSent(true)
     } catch (err) {
-      // Fail hon te vi success dikha dinde haan kyunki Netlify silent fail karda
       setSent(true)
     } finally {
       setSending(false)
     }
   }
+
   const field = (name) => ({
     style: {
       width: '100%',
@@ -148,7 +140,7 @@ export default function Contact() {
 
             <div className="contact-grid-wrapper">
 
-              {/* LEFT — INFO */}
+              {/* LEFT — INFO SIDE */}
               <motion.div className="info-side" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
                 <p className="info-p">
                   Tell us about your project. We'll respond within 48 hours with a plan and a fixed-price quote. First consultation is always free.
@@ -162,7 +154,7 @@ export default function Contact() {
                   ].map(({ Icon, label, val }) => (
                     <div key={label} className="info-item-row">
                       <div className="icon-box"><Icon size={16} /></div>
-                      <div>
+                      <div className="item-text-stack">
                         <div className="item-label">{label}</div>
                         <div className="item-val">{val}</div>
                       </div>
@@ -171,7 +163,7 @@ export default function Contact() {
                 </div>
               </motion.div>
 
-              {/* RIGHT — FORM */}
+              {/* RIGHT — FORM SIDE */}
               <motion.div className="form-side" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
                 <AnimatePresence mode="wait">
                   {sent ? (
@@ -185,7 +177,6 @@ export default function Contact() {
                     </motion.div>
                   ) : (
                     <motion.div key="form" className="form-stack">
-
                       <input name="bot-field" style={{ display: 'none' }} />
 
                       <div className="form-row-2">
@@ -202,43 +193,19 @@ export default function Contact() {
                       </div>
 
                       <div className="form-row-2">
-                        <CustomDropdown
-                          label="Project Type"
-                          name="type"
-                          value={form.type}
-                          options={['Business Website', 'E-Commerce Store', 'Custom Web App', 'Landing Page', 'Maintenance', 'Other']}
-                          onChange={handle}
-                        />
-                        <CustomDropdown
-                          label="Budget"
-                          name="budget"
-                          value={form.budget}
-                          placeholder="Select range"
-                          options={['Under $1,000', '$1,000–$2,500', '$2,500–$5,000', '$5,000–$10,000', '$10,000+']}
-                          onChange={handle}
-                        />
+                        <CustomDropdown label="Project Type" name="type" value={form.type} options={['Business Website', 'E-Commerce Store', 'Custom Web App', 'Landing Page', 'Maintenance', 'Other']} onChange={handle} />
+                        <CustomDropdown label="Budget" name="budget" value={form.budget} placeholder="Select range" options={['Under $1,000', '$1,000–$2,500', '$2,500–$5,000', '$5,000–$10,000', '$10,000+']} onChange={handle} />
                       </div>
 
                       <div className="field-group">
                         <label className="label-style">Project Details</label>
-                        <textarea name="message" value={form.message} onChange={handle}
-                          placeholder="What are you building? Timeline? Any specific requirements?"
-                          rows={5} {...field('message')} style={{ ...field('message').style, resize: 'none' }}
-                        />
+                        <textarea name="message" value={form.message} onChange={handle} placeholder="What are you building? Timeline? Any specific requirements?" rows={5} {...field('message')} style={{ ...field('message').style, resize: 'none' }} />
                         {errors.message && <span className="err-txt">{errors.message}</span>}
                       </div>
 
-                      <motion.button
-                        onClick={submit}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                        disabled={sending}
-                        className="submit-btn-main"
-                        style={{ opacity: sending ? 0.7 : 1 }}
-                      >
+                      <motion.button onClick={submit} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} disabled={sending} className="submit-btn-main" style={{ opacity: sending ? 0.7 : 1 }}>
                         {sending ? 'Sending...' : <><span>Send Message</span> <Send size={16} /></>}
                       </motion.button>
-
                       <p className="footer-note">No obligations. Free first consultation.</p>
                     </motion.div>
                   )}
@@ -265,38 +232,33 @@ export default function Contact() {
 
           .form-stack { display: flex; flex-direction: column; gap: 20px; }
           .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-          .field-group { display: flex; flex-direction: column; }
-          .label-style { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 7px; }
+          .field-group { display: flex; flex-direction: column; text-align: left; }
+          .label-style { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 7px; text-align: left; }
           .err-txt { font-size: 11px; color: #F87171; margin-top: 5px; }
 
-          /* DROPDOWN MENU STYLING */
-          .dropdown-menu-list {
-            position: absolute; top: calc(100% + 5px); left: 0; right: 0;
-            background: var(--card); border: 1px solid var(--b2); border-radius: 12px;
-            z-index: 50; padding: 6px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-          }
-          .dropdown-option-item {
-            padding: 10px 12px; border-radius: 8px; cursor: pointer;
-            font-size: 14px; color: var(--t2); transition: 0.2s;
-          }
-          .dropdown-option-item:hover { background: var(--bg2); color: var(--t1); }
-
-          .submit-btn-main {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
-            color: #fff; padding: 16px; border-radius: 12px;
-            border: none; font-weight: 600; font-size: 15px;
-            cursor: pointer; display: flex; align-items: center;
-            justify-content: center; gap: 8px;
-            box-shadow: 0 8px 24px var(--accent-glow);
-          }
+          .submit-btn-main { background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: #fff; padding: 16px; border-radius: 12px; border: none; font-weight: 600; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 24px var(--accent-glow); }
           .footer-note { font-size: 12px; color: var(--t3); text-align: center; }
           .success-box { background: var(--card); border: 1px solid var(--b2); border-radius: 24px; padding: 60px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-          .success-box h3 { font-family: var(--font-display); font-size: 26px; color: var(--t1); margin: 0; }
-          .reset-btn { background: transparent; border: 1px solid var(--b2); color: var(--t2); padding: 8px 20px; border-radius: 8px; cursor: pointer; }
 
           @media (max-width: 900px) {
             .contact-grid-wrapper { grid-template-columns: 1fr; gap: 48px; }
-            .info-side { order: 2; }
+            .contact-header { text-align: center; }
+            .info-side { 
+              order: 2; 
+              text-align: center; 
+              display: flex; 
+              flex-direction: column; 
+              align-items: center; 
+            }
+            /* Info items nu center karan layi fix */
+            .info-items-list { 
+              width: 100%; 
+              align-items: center; /* Saari list nu center kitta */
+            }
+            .info-item-row { 
+              width: 240px; /* Fixed width ditti taaki icons align rehen */
+              text-align: left; 
+            }
             .form-side { order: 1; }
           }
           @media (max-width: 600px) {

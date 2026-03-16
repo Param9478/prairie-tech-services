@@ -8,51 +8,67 @@ import boondocksInventory from '../assets/inventory.webp'
 import disposal from '../assets/disposal.webp'
 import trading from '../assets/trading.webp'
 import aquatic from '../assets/aquatic-center.webp'
+import nexto from '../assets/nexto.webp'
 import SEO from '../components/SEO.jsx'
 
 const projects = [
+
+
+
   {
-    id: 1, cat: 'Website', title: 'SAC', year: '2023',
-    color: '#2D1010', accent: '#FB923C', img: sac,
-    stack: ['React', 'Authentication', 'Dashboard'],
-    desc: 'Official member portal and library for the Songwriters Association of Canada.',
-    link: 'https://songwriters.ca/'
-  },
-  {
-    id: 2, cat: 'Web App', title: 'The Boondocks Grill', year: '2025',
+    id: 1, cat: 'Website', title: 'The Boondocks Grill', year: '2025',
     color: '#0D1E2D', accent: '#eab309', img: boondocks,
     stack: ['React', 'UX Design', 'Branding'],
     desc: 'Main customer-facing portal for Boondocks Grill, featuring menus and location details.',
     link: 'https://theboondocksgrill.com/'
   },
   {
-    id: 3, cat: 'Website', title: '24 Seven Disposal', year: '2024',
-    color: '#0D2218', accent: '#f65726', img: disposal,
-    stack: ['React', 'UI/UX', 'SEO'],
-    desc: 'Full digital presence for a disposal service, focusing on local service booking.',
-    link: 'https://24sevendisposal.com/'
+    id: 2, cat: 'Web App', title: 'Boondocks Inventory', year: '2025',
+    color: '#1A0D2E', accent: '#A78BFA', img: boondocksInventory,
+    stack: ['React', 'Node.js', 'Inventory API'],
+    desc: 'Internal management system to track stock levels and optimize ordering workflows.',
+    link: 'https://boondocks-inventory.netlify.app/'
   },
+
   {
-    id: 4, cat: 'Web App', title: 'Trade With Scholars', year: '2023',
+    id: 3, cat: 'Website', title: 'Trade With Scholars', year: '2023',
     color: '#0D2218', accent: '#34D399', img: trading,
     stack: ['Next.js', 'Real-time Data', 'Finance'],
     desc: 'Educational platform for trading and stock market analysis.',
     link: 'https://tradewithscholars.com/'
   },
   {
-    id: 5, cat: 'Website', title: 'Aquatic Center', year: '2024',
-    color: '#0D1A2D', accent: '#60A5FA', img: aquatic,
-    stack: ['React', 'Scheduling', 'CSS Grid'],
-    desc: 'Community-focused portal for pool schedules in High Prairie.',
-    link: 'https://aquatic-center.netlify.app/'
+    id: 4,
+    cat: 'Website',
+    title: '24 Seven Disposal',
+    year: '2024',
+    color: '#0D2218',
+    accent: '#f65726',
+    img: disposal,
+    stack: ['React', 'UI/UX', 'SEO', 'Responsive'],
+    desc: 'Full digital presence for a local disposal service. Clean, conversion-focused design with service booking and local SEO optimization.',
+    link: 'https://steady-nougat-6318f6.netlify.app/'
   },
   {
-    id: 6, cat: 'Web App', title: 'Boondocks Inventory', year: '2025',
-    color: '#1A0D2E', accent: '#A78BFA', img: boondocksInventory,
-    stack: ['React', 'Node.js', 'Inventory API'],
-    desc: 'Internal management system to track stock levels and optimize ordering workflows.',
-    link: 'https://boondocks-inventory.netlify.app/'
-  }
+    id: 5,
+    cat: 'Web App',
+    title: 'Nexto Travel',
+    year: '2024',
+    color: '#0D1A2D',
+    accent: '#60A5FA',
+    img: nexto,
+    stack: ['Next.js', 'Express', 'Aviation .API', 'Node.js'],
+    desc: 'A full-stack flight search platform with real-time airport lookup and live flight data via aviation API.',
+    link: 'https://nextotravel.netlify.app/'
+  },
+  {
+    id: 6, cat: 'Website', title: 'Aquatic Center', year: '2024',
+    color: '#0D1A2D', accent: '#60A5FA', img: aquatic,
+    stack: ['React', 'Scheduling', 'CSS Grid'],
+    desc: 'A clean, responsive website for a local aquatic center featuring pool schedules, facility information, and program listings.',
+    link: 'https://aquatic-center.netlify.app/'
+  },
+
 ]
 
 const cats = ['All', 'Website', 'Web App']
@@ -288,7 +304,7 @@ export default function Projects() {
           .work-card:hover { border-color: var(--b3); transform: translateY(-5px); }
           .work-card-visual { height: 220px; position: relative; overflow: hidden; }
           .image-clipper { width: 100%; height: 100%; overflow: hidden; position: relative; }
-          .work-card-img { width: 100%; height: 115%; object-fit: cover; transform: translateY(-9%) scale(1.1); transform-origin: top; transition: 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
+          .work-card-img { width: 100%; height: 115%; object-fit: cover; transform: translateY(-9%) scale(1.0); transform-origin: top; transition: 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
           .work-card:hover .work-card-img { transform: translateY(-5%) scale(1.15); }
           .work-category-tag { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.55); backdrop-filter: blur(10px); color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 600; z-index: 5; text-transform: uppercase; letter-spacing: 0.05em; }
           .work-card-details { padding: 28px; }

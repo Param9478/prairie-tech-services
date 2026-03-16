@@ -293,7 +293,7 @@ export default function Home() {
             font-size: 12px;
             font-weight: 500;
             color: var(--t2);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
           }
           .badge-dot {
             width: 7px; height: 7px;
