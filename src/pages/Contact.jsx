@@ -97,8 +97,12 @@ export default function Contact() {
       // Netlify nu ikk simple string-encoded body chahidi hai
       const body = new URLSearchParams({
         "form-name": "contact",
-        ...form
-      }).toString()
+        "name": form.name,
+        "email": form.email,
+        "type": form.type,
+        "budget": form.budget,
+        "message": form.message
+      }).toString();
 
       await fetch("/", {
         method: "POST",
