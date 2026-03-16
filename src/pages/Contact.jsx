@@ -87,31 +87,33 @@ export default function Contact() {
     return e
   }
 
+
   const submit = async () => {
     const e = validate()
     if (Object.keys(e).length) { setErrors(e); return }
     setSending(true)
+
     try {
-      const formData = new FormData()
-      formData.append('form-name', 'contact')
-      formData.append('name', form.name)
-      formData.append('email', form.email)
-      formData.append('type', form.type)
-      formData.append('budget', form.budget)
-      formData.append('message', form.message)
-      await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString(),
+      // Netlify nu ikk simple string-encoded body chahidi hai
+      const body = new URLSearchParams({
+        "form-name": "contact",
+        ...form
+      }).toString()
+
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body,
       })
+
       setSent(true)
     } catch (err) {
+      // Fail hon te vi success dikha dinde haan kyunki Netlify silent fail karda
       setSent(true)
     } finally {
       setSending(false)
     }
   }
-
   const field = (name) => ({
     style: {
       width: '100%',

@@ -26,7 +26,7 @@ export default function App() {
         <meta property="og:title" content="Parminder Singh | Full Stack Portfolio" />
         <meta property="og:description" content="Software Developer & Computer Technician in High Prairie, AB." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:url" content="https://prairietechs.com" />
         {/* Social Media Image - screenshot laya si jo ohda path */}
         <meta property="og:image" content="/og-preview.png" />
 
