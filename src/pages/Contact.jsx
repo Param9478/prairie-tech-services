@@ -1,7 +1,72 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle, MapPin, Globe, Clock, Mail, Send } from 'lucide-react'
+import { CheckCircle, MapPin, Globe, Clock, Mail, Send, ChevronDown } from 'lucide-react'
 import SEO from '../components/SEO.jsx'
+
+// Custom Dropdown Component (Sirf Arrow te Toggle fix karan layi)
+const CustomDropdown = ({ label, options, value, onChange, placeholder, name }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="field-group" ref={containerRef} style={{ position: 'relative' }}>
+      <label className="label-style">{label}</label>
+      <div
+        className="custom-select-trigger"
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          width: '100%',
+          background: 'var(--card)',
+          border: '1px solid var(--b2)',
+          borderRadius: 12, padding: '14px 16px',
+          color: value ? 'var(--t1)' : 'var(--t3)',
+          fontSize: 14,
+          cursor: 'pointer',
+          display: 'flex',
+          justifyContent: 'space-between',
+          align_items: 'center'
+        }}
+      >
+        <span>{value || placeholder}</span>
+        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+          <ChevronDown size={16} style={{ opacity: 0.6 }} />
+        </motion.div>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            className="dropdown-menu-list"
+          >
+            {options.map((opt) => (
+              <div
+                key={opt}
+                className="dropdown-option-item"
+                onClick={() => {
+                  onChange({ target: { name, value: opt } });
+                  setIsOpen(false);
+                }}
+              >
+                {opt}
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', type: 'Business Website', budget: '', message: '' })
@@ -25,10 +90,8 @@ export default function Contact() {
   const submit = async () => {
     const e = validate()
     if (Object.keys(e).length) { setErrors(e); return }
-
     setSending(true)
     try {
-      // Netlify Forms submission
       const formData = new FormData()
       formData.append('form-name', 'contact')
       formData.append('name', form.name)
@@ -36,17 +99,13 @@ export default function Contact() {
       formData.append('type', form.type)
       formData.append('budget', form.budget)
       formData.append('message', form.message)
-
       await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString(),
       })
-
       setSent(true)
     } catch (err) {
-      console.error(err)
-      // Even if fetch fails, show success (Netlify handles it)
       setSent(true)
     } finally {
       setSending(false)
@@ -67,22 +126,7 @@ export default function Contact() {
 
   return (
     <>
-      <SEO
-        title="Contact Us"
-        description="Get in touch with Prairie Tech Services. Free consultation for web development projects in High Prairie, Alberta."
-        path="/contact"
-      />
-
-      {/* NETLIFY FORM DETECTION — hidden form for Netlify to detect */}
-      <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
-        <input type="hidden" name="form-name" value="contact" />
-        <input name="bot-field" />
-        <input name="name" />
-        <input name="email" />
-        <input name="type" />
-        <input name="budget" />
-        <textarea name="message" />
-      </form>
+      <SEO title="Contact Us" description="Get in touch with Prairie Tech Services." path="/contact" />
 
       <div className="page-wrap" style={{ paddingTop: 80, background: 'var(--bg)' }}>
         <section className="contact-section">
@@ -136,7 +180,6 @@ export default function Contact() {
                   ) : (
                     <motion.div key="form" className="form-stack">
 
-                      {/* Honeypot — spam protection */}
                       <input name="bot-field" style={{ display: 'none' }} />
 
                       <div className="form-row-2">
@@ -153,19 +196,21 @@ export default function Contact() {
                       </div>
 
                       <div className="form-row-2">
-                        <div className="field-group">
-                          <label className="label-style">Project Type</label>
-                          <select name="type" value={form.type} onChange={handle} {...field('type')} style={{ ...field('type').style, appearance: 'none' }}>
-                            {['Business Website', 'E-Commerce Store', 'Custom Web App', 'Landing Page', 'Maintenance', 'Other'].map(o => <option key={o}>{o}</option>)}
-                          </select>
-                        </div>
-                        <div className="field-group">
-                          <label className="label-style">Budget</label>
-                          <select name="budget" value={form.budget} onChange={handle} {...field('budget')} style={{ ...field('budget').style, appearance: 'none' }}>
-                            <option value="">Select range</option>
-                            {['Under $1,000', '$1,000–$2,500', '$2,500–$5,000', '$5,000–$10,000', '$10,000+'].map(o => <option key={o}>{o}</option>)}
-                          </select>
-                        </div>
+                        <CustomDropdown
+                          label="Project Type"
+                          name="type"
+                          value={form.type}
+                          options={['Business Website', 'E-Commerce Store', 'Custom Web App', 'Landing Page', 'Maintenance', 'Other']}
+                          onChange={handle}
+                        />
+                        <CustomDropdown
+                          label="Budget"
+                          name="budget"
+                          value={form.budget}
+                          placeholder="Select range"
+                          options={['Under $1,000', '$1,000–$2,500', '$2,500–$5,000', '$5,000–$10,000', '$10,000+']}
+                          onChange={handle}
+                        />
                       </div>
 
                       <div className="field-group">
@@ -202,9 +247,9 @@ export default function Contact() {
           .contact-section { padding: 80px 0 120px; }
           .contact-header { margin-bottom: 64px; }
           .sec-title { font-size: clamp(44px, 7vw, 84px); font-weight: 800; line-height: 1; color: var(--t1); letter-spacing: -3px; }
+          .grad-text { background: linear-gradient(to right, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
           .contact-grid-wrapper { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start; }
-
           .info-p { font-size: 15px; color: var(--t2); line-height: 1.8; margin-bottom: 40px; font-weight: 300; }
           .info-items-list { display: flex; flex-direction: column; gap: 24px; }
           .info-item-row { display: flex; gap: 14px; align-items: flex-start; }
@@ -218,34 +263,38 @@ export default function Contact() {
           .label-style { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 7px; }
           .err-txt { font-size: 11px; color: #F87171; margin-top: 5px; }
 
+          /* DROPDOWN MENU STYLING */
+          .dropdown-menu-list {
+            position: absolute; top: calc(100% + 5px); left: 0; right: 0;
+            background: var(--card); border: 1px solid var(--b2); border-radius: 12px;
+            z-index: 50; padding: 6px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+          }
+          .dropdown-option-item {
+            padding: 10px 12px; border-radius: 8px; cursor: pointer;
+            font-size: 14px; color: var(--t2); transition: 0.2s;
+          }
+          .dropdown-option-item:hover { background: var(--bg2); color: var(--t1); }
+
           .submit-btn-main {
             background: linear-gradient(135deg, var(--accent), var(--accent-dim));
             color: #fff; padding: 16px; border-radius: 12px;
             border: none; font-weight: 600; font-size: 15px;
             cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 8px;
-            transition: opacity 0.2s; font-family: var(--font-body);
             box-shadow: 0 8px 24px var(--accent-glow);
           }
-          .submit-btn-main:hover { opacity: 0.88; }
-
           .footer-note { font-size: 12px; color: var(--t3); text-align: center; }
-
           .success-box { background: var(--card); border: 1px solid var(--b2); border-radius: 24px; padding: 60px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
           .success-box h3 { font-family: var(--font-display); font-size: 26px; color: var(--t1); margin: 0; }
-          .success-box p { font-size: 14px; color: var(--t2); margin: 0; }
-          .reset-btn { background: transparent; border: 1px solid var(--b2); color: var(--t2); padding: 8px 20px; border-radius: 8px; margin-top: 8px; cursor: pointer; font-family: var(--font-body); font-size: 13px; }
+          .reset-btn { background: transparent; border: 1px solid var(--b2); color: var(--t2); padding: 8px 20px; border-radius: 8px; cursor: pointer; }
 
           @media (max-width: 900px) {
             .contact-grid-wrapper { grid-template-columns: 1fr; gap: 48px; }
-            .contact-header { text-align: center; }
-            .info-side { order: 2; text-align: center; display: flex; flex-direction: column; align-items: center; }
-            .info-item-row { text-align: left; }
+            .info-side { order: 2; }
             .form-side { order: 1; }
           }
           @media (max-width: 600px) {
             .form-row-2 { grid-template-columns: 1fr; }
-            .contact-section { padding: 40px 0 80px; }
             .sec-title { font-size: 48px; }
           }
         `}</style>

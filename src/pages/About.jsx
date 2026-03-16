@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import {
-  ArrowRight, Globe, Code2, Terminal, Database, Cpu
-} from 'lucide-react'
+import { ArrowRight, Globe, Code2, Terminal, Database, Cpu } from 'lucide-react'
 import SEO from '../components/SEO.jsx'
+import logoIcon from '../assets/logo-icon.png'
 
 const stack = [
   { cat: 'Frontend', items: ['React', 'Next.js', 'Vite', 'Framer Motion', 'Tailwind'], icon: <Code2 size={18} /> },
@@ -48,7 +47,12 @@ export default function About() {
 
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }} className="profile-box-outer">
               <div className="profile-box-inner">
-                <div className="profile-badge">PTS</div>
+
+                {/* P BIRD LOGO instead of PTS text */}
+                <div className="profile-badge">
+                  <img src={logoIcon} alt="Prairie Tech" className="badge-logo" />
+                </div>
+
                 <h3 className="profile-name">Prairie Tech Services</h3>
                 <p className="profile-sub"><Globe size={12} /> Alberta, Canada</p>
                 <div className="profile-info-list">
@@ -69,11 +73,9 @@ export default function About() {
               <h2 className="section-title-h2">The <span className="grad-text">Arsenal</span></h2>
               <p className="section-subtitle">What we use to build your digital future.</p>
             </div>
-
             <div className="bento-grid">
               {stack.map((s, i) => (
-                <motion.div
-                  key={s.cat}
+                <motion.div key={s.cat}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
@@ -105,8 +107,7 @@ export default function About() {
             </div>
             <div className="process-grid">
               {steps.map((s, i) => (
-                <motion.div
-                  key={s.num}
+                <motion.div key={s.num}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -135,7 +136,23 @@ export default function About() {
           /* PROFILE BOX */
           .profile-box-outer { background: var(--card); border: 1px solid var(--b2); border-radius: 32px; padding: 12px; }
           .profile-box-inner { padding: 32px; background: var(--bg2); border: 1px solid var(--b1); border-radius: 22px; position: relative; overflow: hidden; }
-          .profile-badge { width: 56px; height: 56px; background: var(--accent); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 20px; margin-bottom: 20px; }
+
+          /* LOGO BADGE */
+          .profile-badge {
+            width: 72px; height: 72px;
+            background: var(--bg3);
+            border: 1px solid var(--b2);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+          }
+          .badge-logo {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+          }
+
           .profile-name { font-size: 20px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
           .profile-sub { font-size: 12px; color: var(--t3); margin-bottom: 24px; display: flex; align-items: center; gap: 6px; }
           .info-item { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--b1); font-size: 13px; color: var(--t3); }
@@ -147,22 +164,18 @@ export default function About() {
           .section-title-h2 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: var(--t1); letter-spacing: -2px; margin-bottom: 12px; }
           .section-subtitle { color: var(--t3); font-size: 16px; font-weight: 300; }
 
-          /* BENTO GRID — Option A: bottom row dono 3/6 equal */
           .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
           .bento-card { position: relative; background: var(--card); border: 1px solid var(--b1); padding: 32px; border-radius: 28px; overflow: hidden; transition: 0.3s ease; }
           .bento-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-
           .bento-frontend { grid-column: span 3; }
           .bento-backend  { grid-column: span 3; }
-          .bento-database { grid-column: span 3; } /* FIXED: 2 → 3 */
-          .bento-devops   { grid-column: span 3; } /* FIXED: 4 → 3 */
-
+          .bento-database { grid-column: span 3; }
+          .bento-devops   { grid-column: span 3; }
           .bento-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
           .bento-card-icon { color: var(--accent); }
           .bento-card-cat { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t1); }
           .bento-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
           .stack-pill { font-size: 12px; color: var(--t2); background: var(--bg3); padding: 6px 14px; border-radius: 10px; border: 1px solid var(--b1); }
-
           .bento-glow-effect { position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--accent-dim), transparent 70%); opacity: 0; transition: 0.4s; pointer-events: none; }
           .bento-card:hover .bento-glow-effect { opacity: 0.1; }
 

@@ -28,6 +28,10 @@ export default function Navbar() {
 
   useEffect(() => { setOpen(false) }, [pathname])
 
+  const handleLogoClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const handleQuoteClick = () => {
     setOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -43,7 +47,7 @@ export default function Navbar() {
       >
         <div className="nav-container">
 
-          <NavLink to="/" className="nav-logo">
+          <NavLink to="/" className="nav-logo" onClick={handleLogoClick}>
             <img src={logo} alt="Prairie Tech Services" className="logo-full" />
             <img src={logoIcon} alt="Prairie Tech Services" className="logo-icon" />
           </NavLink>
