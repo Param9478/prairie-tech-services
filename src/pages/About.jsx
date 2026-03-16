@@ -1,15 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
-  ArrowRight,
-  Globe,
-  Code2,
-  Terminal,
-  Database,
-  Cpu,
-  Layers,
-  MessageSquare,
-  Rocket
+  ArrowRight, Globe, Code2, Terminal, Database, Cpu
 } from 'lucide-react'
 import SEO from '../components/SEO.jsx'
 
@@ -31,20 +23,16 @@ export default function About() {
   return (
     <>
       <SEO
-        title="Our Projects"
-        description="Check out our latest web development and IT projects in High Prairie, Alberta."
-        path="/projects"
+        title="About Prairie Tech Services"
+        description="Full-stack web development studio based in High Prairie, Alberta."
+        path="/about"
       />
       <div className="page-wrap" style={{ background: 'var(--bg)', paddingTop: 80 }}>
 
-        {/* ─── INTRO SECTION ─── */}
+        {/* INTRO */}
         <section className="about-intro-sec">
           <div className="container intro-grid">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="intro-text-side"
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="intro-text-side">
               <div className="sec-tag">Who We Are</div>
               <h1 className="about-main-title">About<br /><span className="grad-text">Prairie Tech</span></h1>
               <p className="about-p">
@@ -58,17 +46,11 @@ export default function About() {
               </Link>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="profile-box-outer"
-            >
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }} className="profile-box-outer">
               <div className="profile-box-inner">
                 <div className="profile-badge">PT</div>
                 <h3 className="profile-name">Prairie Tech Services</h3>
                 <p className="profile-sub"><Globe size={12} /> Alberta, Canada</p>
-
                 <div className="profile-info-list">
                   <div className="info-item"><span>Location</span><span className="info-val">High Prairie</span></div>
                   <div className="info-item"><span>Expertise</span><span className="info-val">MERN Stack</span></div>
@@ -79,7 +61,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ─── BENTO ARSENAL (TECH STACK) ─── */}
+        {/* ARSENAL */}
         <section className="arsenal-sec">
           <div className="container">
             <div className="section-header-centered">
@@ -114,7 +96,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* ─── PROCESS SECTION ─── */}
+        {/* PROCESS */}
         <section className="process-sec">
           <div className="container">
             <div className="section-header-centered">
@@ -141,78 +123,80 @@ export default function About() {
         </section>
 
         <style>{`
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        
-        /* Intro Section */
-        .about-intro-sec { padding: 100px 0; border-bottom: 1px solid var(--b1); }
-        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .about-main-title { font-family: var(--font-display); font-size: clamp(44px, 6vw, 82px); font-weight: 700; color: var(--t1); line-height: 0.95; letter-spacing: -3px; margin-bottom: 24px; }
-        .about-p { font-size: 16px; color: var(--t2); line-height: 1.8; margin-bottom: 20px; font-weight: 300; }
-        .cta-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-weight: 600; text-decoration: none; font-size: 14px; margin-top: 10px; }
+          .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* Profile Box */
-        .profile-box-outer { background: var(--card); border: 1px solid var(--b2); border-radius: 32px; padding: 12px; }
-        .profile-box-inner { padding: 32px; background: var(--bg2); border: 1px solid var(--b1); border-radius: 22px; position: relative; overflow: hidden; }
-        .profile-badge { width: 56px; height: 56px; background: var(--accent); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 20px; margin-bottom: 20px; }
-        .profile-name { font-size: 20px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
-        .profile-sub { font-size: 12px; color: var(--t3); margin-bottom: 24px; display: flex; align-items: center; gap: 6px; }
-        .info-item { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--b1); font-size: 13px; color: var(--t3); }
-        .info-val { color: var(--t1); font-weight: 500; }
+          /* INTRO */
+          .about-intro-sec { padding: 100px 0; border-bottom: 1px solid var(--b1); }
+          .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+          .about-main-title { font-family: var(--font-display); font-size: clamp(44px, 6vw, 82px); font-weight: 700; color: var(--t1); line-height: 0.95; letter-spacing: -3px; margin-bottom: 24px; }
+          .about-p { font-size: 16px; color: var(--t2); line-height: 1.8; margin-bottom: 20px; font-weight: 300; }
+          .cta-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-weight: 600; text-decoration: none; font-size: 14px; margin-top: 10px; }
 
-        /* Arsenal Section & Bento Grid */
-        .arsenal-sec { padding: 100px 0; border-bottom: 1px solid var(--b1); }
-        .section-header-centered { text-align: center; margin-bottom: 60px; }
-        .section-title-h2 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: var(--t1); letter-spacing: -2px; margin-bottom: 12px; }
-        .section-subtitle { color: var(--t3); font-size: 16px; font-weight: 300; }
+          /* PROFILE BOX */
+          .profile-box-outer { background: var(--card); border: 1px solid var(--b2); border-radius: 32px; padding: 12px; }
+          .profile-box-inner { padding: 32px; background: var(--bg2); border: 1px solid var(--b1); border-radius: 22px; position: relative; overflow: hidden; }
+          .profile-badge { width: 56px; height: 56px; background: var(--accent); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 20px; margin-bottom: 20px; }
+          .profile-name { font-size: 20px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+          .profile-sub { font-size: 12px; color: var(--t3); margin-bottom: 24px; display: flex; align-items: center; gap: 6px; }
+          .info-item { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--b1); font-size: 13px; color: var(--t3); }
+          .info-val { color: var(--t1); font-weight: 500; }
 
-        .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
-        .bento-card { position: relative; background: var(--card); border: 1px solid var(--b1); padding: 32px; border-radius: 28px; overflow: hidden; transition: 0.3s ease; }
-        .bento-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-        
-        .bento-frontend { grid-column: span 3; }
-        .bento-backend { grid-column: span 3; }
-        .bento-database { grid-column: span 2; }
-        .bento-devops { grid-column: span 4; }
+          /* ARSENAL */
+          .arsenal-sec { padding: 100px 0; border-bottom: 1px solid var(--b1); }
+          .section-header-centered { text-align: center; margin-bottom: 60px; }
+          .section-title-h2 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: var(--t1); letter-spacing: -2px; margin-bottom: 12px; }
+          .section-subtitle { color: var(--t3); font-size: 16px; font-weight: 300; }
 
-        .bento-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .bento-card-icon { color: var(--accent); }
-        .bento-card-cat { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t1); }
-        .bento-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .stack-pill { font-size: 12px; color: var(--t2); background: var(--bg3); padding: 6px 14px; border-radius: 10px; border: 1px solid var(--b1); }
-        
-        .bento-glow-effect { position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--accent-dim), transparent 70%); opacity: 0; transition: 0.4s; pointer-events: none; }
-        .bento-card:hover .bento-glow-effect { opacity: 0.1; }
+          /* BENTO GRID — Option A: bottom row dono 3/6 equal */
+          .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+          .bento-card { position: relative; background: var(--card); border: 1px solid var(--b1); padding: 32px; border-radius: 28px; overflow: hidden; transition: 0.3s ease; }
+          .bento-card:hover { border-color: var(--accent); transform: translateY(-4px); }
 
-        /* Process Section */
-        .process-sec { padding: 100px 0 140px; }
-        .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-        .process-step-num { font-family: var(--font-display); font-size: 48px; font-weight: 700; color: var(--b2); line-height: 1; margin-bottom: 16px; letter-spacing: -2px; }
-        .process-step-title { font-size: 18px; font-weight: 600; color: var(--t1); margin-bottom: 10px; }
-        .process-step-desc { font-size: 14px; color: var(--t2); line-height: 1.7; }
+          .bento-frontend { grid-column: span 3; }
+          .bento-backend  { grid-column: span 3; }
+          .bento-database { grid-column: span 3; } /* FIXED: 2 → 3 */
+          .bento-devops   { grid-column: span 3; } /* FIXED: 4 → 3 */
 
-        /* ─── MOBILE FIXES ─── */
-        @media (max-width: 900px) {
-          .intro-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
-          .intro-text-side { display: flex; flex-direction: column; align-items: center; }
-          .profile-box-outer { max-width: 400px; margin: 0 auto; width: 100%; }
-          .about-p { max-width: 500px; }
+          .bento-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+          .bento-card-icon { color: var(--accent); }
+          .bento-card-cat { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--t1); }
+          .bento-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+          .stack-pill { font-size: 12px; color: var(--t2); background: var(--bg3); padding: 6px 14px; border-radius: 10px; border: 1px solid var(--b1); }
 
-          .bento-grid { grid-template-columns: 1fr; }
-          .bento-frontend, .bento-backend, .bento-database, .bento-devops { grid-column: span 1; }
-          .bento-card { padding: 24px; text-align: center; }
-          .bento-card-header { flex-direction: column; }
-          .bento-card-tags { justify-content: center; }
+          .bento-glow-effect { position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--accent-dim), transparent 70%); opacity: 0; transition: 0.4s; pointer-events: none; }
+          .bento-card:hover .bento-glow-effect { opacity: 0.1; }
 
-          .process-grid { grid-template-columns: repeat(2, 1fr); text-align: center; }
-        }
+          /* PROCESS */
+          .process-sec { padding: 100px 0 140px; }
+          .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+          .process-step-num { font-family: var(--font-display); font-size: 48px; font-weight: 700; color: var(--b2); line-height: 1; margin-bottom: 16px; letter-spacing: -2px; }
+          .process-step-title { font-size: 18px; font-weight: 600; color: var(--t1); margin-bottom: 10px; }
+          .process-step-desc { font-size: 14px; color: var(--t2); line-height: 1.7; }
 
-        @media (max-width: 600px) {
-          .process-grid { grid-template-columns: 1fr; }
-          .about-main-title { font-size: 48px; }
-        }
-      `}</style>
+          /* RESPONSIVE */
+          @media (max-width: 900px) {
+            .intro-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
+            .intro-text-side { display: flex; flex-direction: column; align-items: center; }
+            .profile-box-outer { max-width: 400px; margin: 0 auto; width: 100%; }
+            .about-p { max-width: 500px; }
+            .bento-grid { grid-template-columns: 1fr 1fr; }
+            .bento-frontend, .bento-backend, .bento-database, .bento-devops { grid-column: span 1; }
+            .bento-card { text-align: center; }
+            .profile-box-inner { text-align: center; }
+            .profile-badge { margin: 0 auto 20px; }
+            .profile-sub { justify-content: center; }
+            .info-item { text-align: left; }
+            .bento-card-header { justify-content: center; }
+            .bento-card-tags { justify-content: center; }
+            .process-grid { grid-template-columns: repeat(2, 1fr); text-align: center; }
+          }
+          @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+            .about-main-title { font-size: 48px; }
+          }
+        `}</style>
       </div>
     </>
-
   )
 }

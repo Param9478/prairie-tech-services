@@ -80,6 +80,8 @@ html {
 }
 
 body {
+  padding-top: env(safe-area-inset-top);
+  padding-top: 0;
   font-family: var(--font-body);
   background: var(--bg);
   color: var(--t1);
