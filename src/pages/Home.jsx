@@ -107,7 +107,7 @@ export default function Home() {
                 className="hero-badge"
               >
                 <span className="badge-dot" />
-                Available for New Projects in Alberta
+                Available for New Projects
               </motion.div>
 
               <motion.div
@@ -115,7 +115,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="sec-tag" style={{ pointerEvents: 'auto' }}
               >
-                Alberta · Canada · Open for Projects
+                Alberta · Canada · Web & IT Solutions
               </motion.div>
 
               <motion.h1
