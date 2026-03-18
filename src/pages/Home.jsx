@@ -7,6 +7,7 @@ import {
   Terminal, ShieldCheck
 } from 'lucide-react'
 import SEO from '../components/SEO.jsx'
+import logoIcon from '../assets/logo-icon.png'
 
 const Spline = lazy(() => import('@splinetool/react-spline'))
 
@@ -40,8 +41,8 @@ function SplineSkeleton() {
         style={{ width: 120, height: 120, borderRadius: '50%', background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <motion.div animate={{ rotate: 360 }} transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-          style={{ width: 48, height: 48, borderRadius: 12, background: 'linear-gradient(135deg, var(--accent), var(--spark))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>PT</span>
+          style={{ width: 48, height: 48, borderRadius: 12, background: 'linear-gradient(135deg, var(--accent), var(--spark))', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <img src={logoIcon} alt="PT" style={{ width: 36, height: 36, objectFit: 'contain' }} />
         </motion.div>
       </motion.div>
       <motion.p animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 1.8, repeat: Infinity }}
@@ -63,7 +64,7 @@ export default function Home() {
         path="/"
       />
 
-      <div className="page-wrap" style={{ background: 'var(--bg)', overflowX: 'hidden' }}>
+      <div className="page-wrap" style={{ background: 'var(--bg)', overflowX: 'hidden', paddingTop: 0 }}>
 
         {/* ─── HERO ─── */}
         <section className="hero-sec">
@@ -107,7 +108,7 @@ export default function Home() {
                 className="hero-badge"
               >
                 <span className="badge-dot" />
-                Available for New Projects
+                Available for New Projects in Alberta
               </motion.div>
 
               <motion.div
@@ -115,7 +116,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="sec-tag" style={{ pointerEvents: 'auto' }}
               >
-                Alberta · Canada · Web & IT Solutions
+                Alberta · Canada · Open for Projects
               </motion.div>
 
               <motion.h1
@@ -272,8 +273,8 @@ export default function Home() {
           .section-padding { padding: 120px 0; }
 
           /* HERO */
-          .hero-sec { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
-          .hero-layout-container { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+          .hero-sec { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding-top: 100px; padding-bottom: 40px; }
+          .hero-layout-container { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; }
           .bot-master-container { width: 55%; height: 85vh; position: relative; order: 2; display: flex; justify-content: center; align-items: center; z-index: 1; }
           .spline-canvas { width: 130% !important; height: 100% !important; position: absolute; left: 50%; transform: translateX(-30%); pointer-events: auto; }
           .bot-fade { position: absolute; inset: 0; z-index: 3; background: linear-gradient(90deg, var(--bg) 0%, transparent 30%, transparent 70%, var(--bg) 100%); pointer-events: none; }
@@ -367,10 +368,12 @@ export default function Home() {
           @media (max-width: 1100px) {
             .services-grid-row { grid-template-columns: repeat(2, 1fr); }
             .container { padding: 0 24px; }
+            .hero-text-box { width: 48%; }
+            .bot-master-container { width: 52%; }
           }
-          @media (max-width: 768px) {
-            .section-padding { padding: 60px 0; }
-            .hero-layout-container { flex-direction: column; text-align: center; padding-top: 40px; }
+
+          @media (max-width: 900px) {
+            .hero-layout-container { flex-direction: column; text-align: center; padding-top: 20px; }
             .bot-master-container { width: 100%; height: 50vh; order: 1; }
             .spline-canvas { width: 160% !important; transform: translateX(-50%); left: 50%; }
             .hero-text-box { width: 100%; order: 2; padding-bottom: 40px; }
@@ -379,6 +382,9 @@ export default function Home() {
             .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
             .hero-features { justify-content: center; }
             .hero-badge { margin: 0 auto 12px; }
+          }
+          @media (max-width: 768px) {
+            .section-padding { padding: 60px 0; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .grid-2 { grid-template-columns: 1fr; gap: 40px; text-align: center; }
             .trust-list { justify-content: center; }
