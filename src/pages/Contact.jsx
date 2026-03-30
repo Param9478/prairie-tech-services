@@ -47,6 +47,20 @@ const CustomDropdown = ({ label, options, value, onChange, placeholder, name }) 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
             className="dropdown-menu-list"
+            style={{
+              position: 'absolute',
+              top: '100%', // Trigger de bilkul thalle
+              left: 0,
+              width: '100%',
+              background: 'var(--card)', // Background color set kitta
+              border: '1px solid var(--b2)',
+              borderRadius: 12,
+              marginTop: 8,
+              padding: '8px 0',
+              zIndex: 100, // Taaki niche wale elements de upar aave
+              boxShadow: '0 10px 25px rgba(0,0,0,0.1)', // Thoda shadow taaki alag dikhe
+              overflow: 'hidden'
+            }}
           >
             {options.map((opt) => (
               <div
@@ -55,6 +69,13 @@ const CustomDropdown = ({ label, options, value, onChange, placeholder, name }) 
                 onClick={() => {
                   onChange({ target: { name, value: opt } });
                   setIsOpen(false);
+                }}
+                style={{
+                  padding: '12px 16px',
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  color: 'var(--t1)',
+                  transition: 'background 0.2s'
                 }}
               >
                 {opt}
@@ -171,7 +192,13 @@ export default function Contact() {
                       <CheckCircle size={52} color="var(--accent)" strokeWidth={1.5} />
                       <h3>Message Sent!</h3>
                       <p>We'll get back to you within 48 hours.</p>
-                      <button className="reset-btn" onClick={() => { setSent(false); setForm({ name: '', email: '', type: 'Business Website', budget: '', message: '' }) }}>
+                      <button
+                        className="reset-btn"
+                        onClick={() => {
+                          setSent(false);
+                          setForm({ name: '', email: '', type: 'Business Website', budget: '', message: '' })
+                        }}
+                      >
                         Send Another
                       </button>
                     </motion.div>
@@ -239,7 +266,25 @@ export default function Contact() {
           .submit-btn-main { background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: #fff; padding: 16px; border-radius: 12px; border: none; font-weight: 600; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 24px var(--accent-glow); }
           .footer-note { font-size: 12px; color: var(--t3); text-align: center; }
           .success-box { background: var(--card); border: 1px solid var(--b2); border-radius: 24px; padding: 60px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.reset-btn {
+  margin-top: 20px;
+  background: transparent;
+  color: var(--accent); /* Tuhada theme accent color */
+  border: 1px solid var(--accent);
+  padding: 10px 24px;
+  border-radius: 100px; /* Pill shape */
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
+.reset-btn:hover {
+  background: var(--accent);
+  color: #ffffff; /* Hover karan te text white ho jayega */
+  box-shadow: 0 4px 15px var(--accent-glow);
+  transform: translateY(-2px);
+}
           @media (max-width: 900px) {
             .contact-grid-wrapper { grid-template-columns: 1fr; gap: 48px; }
             .contact-header { text-align: center; }

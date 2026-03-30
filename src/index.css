@@ -260,3 +260,8 @@ select option {
     display: none !important;
   }
 }
+
+.dropdown-option-item:hover {
+  background: var(--bg2);
+  color: var(--accent);
+}
